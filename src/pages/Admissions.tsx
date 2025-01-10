@@ -78,7 +78,7 @@ export default function Admissions() {
 
   const fetchAdmissions = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/admissions');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/admissions`);
       const data = await response.json();
       console.log(data);
       setAdmissions(data);
@@ -89,7 +89,7 @@ export default function Admissions() {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/patients');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/patients`);
       const data = await response.json();
       setPatients(data.filter((p: Patient) => p.status !== 'admitted'));
     } catch (error) {
@@ -99,7 +99,7 @@ export default function Admissions() {
 
   const fetchDoctors = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/doctors');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/doctors`);
       const data = await response.json();
       setDoctors(data);
     } catch (error) {
@@ -109,7 +109,7 @@ export default function Admissions() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/rooms');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/rooms`);
       const data = await response.json();
       setRooms(data.filter((r: Room) => r.status === 'available'));
     } catch (error) {
@@ -119,7 +119,7 @@ export default function Admissions() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:3000/api/admissions', {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/admissions`, {
         method: editingAdmission ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -141,7 +141,7 @@ export default function Admissions() {
 
   const handleDischarge = async (admission: Admission) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/admissions/${admission.admission_id}/discharge`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/admissions/${admission.admission_id}/discharge`, {
         method: 'POST',
       });
 

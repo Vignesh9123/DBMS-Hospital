@@ -56,7 +56,7 @@ export default function Doctors() {
 
   const fetchDoctors = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/doctors');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/doctors`);
       const data = await response.json();
       setDoctors(data);
     } catch (error) {
@@ -66,7 +66,7 @@ export default function Doctors() {
 
   const fetchDepartments = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/departments');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/departments`);
       const data = await response.json();
       console.log(data)
       setDepartments(data);
@@ -78,7 +78,7 @@ export default function Doctors() {
   const onSubmit = async (data: any) => {
     console.log
     try {
-      const response = await fetch('http://localhost:3000/api/doctors', {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/doctors`, {
         method: editingDoctor ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -183,7 +183,7 @@ export default function Doctors() {
                     onClick={async () => {
                       if (confirm('Are you sure?')) {
                         try {
-                          await fetch(`http://localhost:3000/api/doctors/${doctor.doctor_id}`, {
+                          await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/doctors/${doctor.doctor_id}`, {
                             method: 'DELETE',
                           });
                           toast.success('Doctor deleted');

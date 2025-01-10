@@ -42,7 +42,7 @@ export default function Patients() {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/patients');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/patients`);
       const data = await response.json();
       setPatients(data);
     } catch (error) {
@@ -52,7 +52,7 @@ export default function Patients() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:3000/api/patients', {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/patients`, {
         method: editingPatient ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -156,7 +156,7 @@ export default function Patients() {
                     onClick={async () => {
                       if (confirm('Are you sure?')) {
                         try {
-                          await fetch(`http://localhost:3000/api/patients/${patient.patient_id}`, {
+                          await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/patients/${patient.patient_id}`, {
                             method: 'DELETE',
                           });
                           toast.success('Patient deleted');

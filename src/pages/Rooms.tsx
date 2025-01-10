@@ -71,7 +71,7 @@ export default function Rooms() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/rooms');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/rooms`);
       const data = await response.json();
       setRooms(data);
     } catch (error) {
@@ -81,7 +81,7 @@ export default function Rooms() {
 
   const fetchDepartments = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/departments');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/departments`);
       const data = await response.json();
       setDepartments(data);
     } catch (error) {
@@ -91,7 +91,7 @@ export default function Rooms() {
 
   const fetchRoomTypes = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/room-types');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/room-types`);
       const data = await response.json();
       setRoomTypes(data);
     } catch (error) {
@@ -101,7 +101,7 @@ export default function Rooms() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:3000/api/rooms', {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/rooms`, {
         method: editingRoom ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -256,7 +256,7 @@ export default function Rooms() {
                     onClick={async () => {
                       if (confirm('Are you sure?')) {
                         try {
-                          await fetch(`http://localhost:3000/api/rooms/${room.room_id}`, {
+                          await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/rooms/${room.room_id}`, {
                             method: 'DELETE',
                           });
                           toast.success('Room deleted');

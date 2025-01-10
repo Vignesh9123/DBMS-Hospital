@@ -65,7 +65,7 @@ export default function Treatments() {
 
   const fetchTreatments = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/treatments');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/treatments`);
       const data = await response.json();
       setTreatments(data);
     } catch (error) {
@@ -75,7 +75,7 @@ export default function Treatments() {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/patients');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/patients`);
       const data = await response.json();
       setPatients(data);
     } catch (error) {
@@ -85,7 +85,7 @@ export default function Treatments() {
 
   const fetchDoctors = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/doctors');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/doctors`);
       const data = await response.json();
       setDoctors(data);
     } catch (error) {
@@ -95,7 +95,7 @@ export default function Treatments() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:3000/api/treatments', {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/treatments`, {
         method: editingTreatment ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -209,7 +209,7 @@ export default function Treatments() {
                     onClick={async () => {
                       if (confirm('Are you sure?')) {
                         try {
-                          await fetch(`http://localhost:3000/api/treatments/${treatment.treatment_id}`, {
+                          await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/treatments/${treatment.treatment_id}`, {
                             method: 'DELETE',
                           });
                           toast.success('Treatment deleted');

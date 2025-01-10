@@ -41,7 +41,7 @@ export default function Departments() {
 
   const fetchDepartments = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/departments');
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/departments`);
       const data = await response.json();
       setDepartments(data);
     } catch (error) {
@@ -51,7 +51,7 @@ export default function Departments() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:3000/api/departments', {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/departments`, {
         method: editingDepartment ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -133,7 +133,7 @@ export default function Departments() {
                     onClick={async () => {
                       if (confirm('Are you sure?')) {
                         try {
-                          await fetch(`http://localhost:3000/api/departments/${department.dept_id}`, {
+                          await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/departments/${department.dept_id}`, {
                             method: 'DELETE',
                           });
                           toast.success('Department deleted');

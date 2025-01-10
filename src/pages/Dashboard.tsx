@@ -20,10 +20,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:3000/api/patients').then(res => res.json()),
-      fetch('http://localhost:3000/api/doctors').then(res => res.json()),
-      fetch('http://localhost:3000/api/departments').then(res => res.json()),
-      fetch('http://localhost:3000/api/rooms').then(res => res.json()),
+      fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/patients`).then(res => res.json()),
+      fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/doctors`).then(res => res.json()),
+      fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/departments`).then(res => res.json()),
+      fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/rooms`).then(res => res.json()),
     ]).then(([patients, doctors, departments, rooms]) => {
       setStats({
         totalPatients: patients.length,
