@@ -37,6 +37,7 @@ app.get('/api/patients', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM Patients');
     res.json(rows);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -50,6 +51,7 @@ app.post('/api/patients', async (req, res) => {
     );
     res.status(201).json({ id: result.insertId });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -63,6 +65,7 @@ app.put('/api/patients/:id', async (req, res) => {
     );
     res.json({ message: 'Patient updated' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -72,6 +75,7 @@ app.delete('/api/patients/:id', async (req, res) => {
     await pool.query('DELETE FROM Patients WHERE patient_id = ?', [req.params.id]);
     res.json({ message: 'Patient deleted' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -85,6 +89,7 @@ app.get('/api/doctors', async (req, res) => {
     `);
     res.json(rows);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -98,6 +103,7 @@ app.post('/api/doctors', async (req, res) => {
     );
     res.status(201).json({ id: result.insertId });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -111,6 +117,7 @@ app.put('/api/doctors/:id', async (req, res) => {
     );
     res.json({ message: 'Doctor updated' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -120,6 +127,7 @@ app.delete('/api/doctors/:id', async (req, res) => {
     await pool.query('DELETE FROM Doctors WHERE doctor_id = ?', [req.params.id]);
     res.json({ message: 'Doctor deleted' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -129,6 +137,7 @@ app.get('/api/departments', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM Departments');
     res.json(rows);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -142,6 +151,7 @@ app.post('/api/departments', async (req, res) => {
     );
     res.status(201).json({ id: result.insertId });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -155,6 +165,7 @@ app.put('/api/departments/:id', async (req, res) => {
     );
     res.json({ message: 'Department updated' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -164,6 +175,7 @@ app.delete('/api/departments/:id', async (req, res) => {
     await pool.query('DELETE FROM Departments WHERE dept_id = ?', [req.params.id]);
     res.json({ message: 'Department deleted' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -178,6 +190,7 @@ app.get('/api/rooms', async (req, res) => {
     `);
     res.json(rows);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -187,6 +200,7 @@ app.get('/api/room-types', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM RoomTypes');
     res.json(rows);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -195,11 +209,12 @@ app.post('/api/rooms', async (req, res) => {
   try {
     const { room_number, type_id, dept_id } = req.body;
     const [result] = await pool.query(
-      'INSERT INTO Rooms (room_number, type_id, dept_id, status) VALUES (?, ?, ?, "available")',
+      "INSERT INTO Rooms (room_number, type_id, dept_id, status) VALUES (?, ?, ?, 'available')",
       [room_number, type_id, dept_id]
     );
     res.status(201).json({ id: result.insertId });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -213,6 +228,7 @@ app.put('/api/rooms/:id', async (req, res) => {
     );
     res.json({ message: 'Room updated' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -222,6 +238,7 @@ app.delete('/api/rooms/:id', async (req, res) => {
     await pool.query('DELETE FROM Rooms WHERE room_id = ?', [req.params.id]);
     res.json({ message: 'Room deleted' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -233,17 +250,11 @@ app.post('/api/admissions', async (req, res) => {
       'INSERT INTO Admissions (patient_id, room_id, primary_doctor_id) VALUES (?, ?, ?)',
       [patient_id, room_id, primary_doctor_id]
     );
-    await pool.query(
-      'UPDATE Rooms SET status = ? WHERE room_id = ?',
-      ['occupied', room_id]
-    );
-    await pool.query(
-      'UPDATE Patients SET status = ? WHERE patient_id = ?',
-      ['admitted', patient_id]
-    );
+    
     res.status(201).json({ id: result.insertId });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log(error)
+    res.status(500).json({ error: error });
   }
 });
 
@@ -258,6 +269,7 @@ app.get('/api/treatments', async (req, res) => {
     `);
     res.json(rows);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -265,12 +277,14 @@ app.get('/api/treatments', async (req, res) => {
 app.post('/api/treatments', async (req, res) => {
   try {
     const { patient_id, doctor_id } = req.body;
+    console.log(patient_id, doctor_id)
     const [result] = await pool.query(
       'INSERT INTO Treatments (patient_id, doctor_id) VALUES (?, ?)',
       [patient_id, doctor_id]
     );
     res.status(201).json({ id: result.insertId });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -280,6 +294,7 @@ app.delete('/api/treatments/:id', async (req, res) => {
     await pool.query('DELETE FROM Treatments WHERE treatment_id = ?', [req.params.id]);
     res.json({ message: 'Treatment deleted' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 });
@@ -296,6 +311,7 @@ app.get('/api/admissions', async (req, res) => {
     `);
     res.json(rows);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -318,20 +334,11 @@ app.post('/api/admissions/:id/discharge', async (req, res) => {
       'UPDATE Admissions SET status = ?, discharge_date = NOW() WHERE admission_id = ?',
       ['discharged', req.params.id]
     );
-
-    await conn.query(
-      'UPDATE Rooms SET status = ? WHERE room_id = ?',
-      ['available', admission[0].room_id]
-    );
-
-    await conn.query(
-      'UPDATE Patients SET status = ? WHERE patient_id = ?',
-      ['discharged', admission[0].patient_id]
-    );
-
     await conn.commit();
     res.json({ message: 'Patient discharged successfully' });
   } catch (error) {
+
+    console.error(error);
     await conn.rollback();
     res.status(500).json({ error: error.message });
   } finally {

@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Stethoscope, Edit, Trash2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm,Controller } from 'react-hook-form';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 
@@ -55,7 +55,7 @@ export default function Treatments() {
   const [isOpen, setIsOpen] = useState(false);
   const [editingTreatment, setEditingTreatment] = useState<Treatment | null>(null);
 
-  const { register, handleSubmit, reset } = useForm();
+  const {  handleSubmit, reset, control } = useForm();
 
   useEffect(() => {
     fetchTreatments();
@@ -94,6 +94,7 @@ export default function Treatments() {
   };
 
   const onSubmit = async (data: any) => {
+    console.log(data)
     try {
       const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URI}/api/treatments`, {
         method: editingTreatment ? 'PUT' : 'POST',
@@ -138,22 +139,32 @@ export default function Treatments() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="patient">Patient</Label>
-                <Select {...register('patient_id')}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select patient" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {patients.map((patient) => (
-                      <SelectItem key={patient.patient_id} value={patient.patient_id.toString()}>
-                        {patient.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="patient_id"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select patient" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {patients.map((patient) => (
+                        <SelectItem key={patient.patient_id} value={patient.patient_id.toString()}>
+                          {patient.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  )}
+               />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="doctor">Doctor</Label>
-                <Select {...register('doctor_id')}>
+                <Controller
+                  name="doctor_id"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select doctor" />
                   </SelectTrigger>
@@ -165,6 +176,8 @@ export default function Treatments() {
                     ))}
                   </SelectContent>
                 </Select>
+                  )}
+                />
               </div>
               <Button type="submit" className="w-full">
                 {editingTreatment ? 'Update' : 'Add'} Treatment

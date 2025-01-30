@@ -134,6 +134,10 @@ export default function Admissions() {
         reset();
         setEditingAdmission(null);
       }
+      else{
+        const res = await response.json();
+        toast.error(res.error.message);
+      }
     } catch (error) {
       toast.error('Operation failed');
     }
